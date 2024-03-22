@@ -1,0 +1,103 @@
+<style>
+    .calculator-container {
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+
+    .usd-calculator {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .calculator-heading {
+        color: #333;
+    }
+
+    .amount-input,
+    select {
+        width: calc(100% - 20px);
+        padding: 8px;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+
+    .calculate-btn {
+        padding: 10px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: calc(100% - 20px);
+        margin-top: 10px;
+        box-sizing: border-box;
+    }
+
+    .calculate-btn:hover {
+        background-color: #45a049;
+    }
+
+    .result-text {
+        margin-top: 20px;
+        font-weight: bold;
+        text-align: left;
+        color: #0000ff;
+    }
+</style>
+
+<div class="calculator-container">
+    <div class="usd-calculator">
+        <h5><b><font color="#010101">USD to BDT Calculator</font></b></h5>
+
+        <label for="amount" class="amount-label">Enter the amount:</label>
+        <input type="number" id="amount" class="amount-input" placeholder="0.20" step="any" min="0.20" value="0.20" oninput="calculate()">
+
+        <label for="currencyType">Select Currency:</label>
+        <select id="currencyType" onchange="calculate()">
+            <option value="usd">USD to BDT</option>
+            <option value="bdt">BDT to USD</option>
+        </select>
+
+        <label for="resultAmount"><b>Result:</b></label>
+        <input type="text" id="resultAmount" readonly="">
+
+        <div class="result-text" id="result" style="text-align: center; ">1 USD is equal to 122 BDT</div>
+        <div class="result-text" id="result" style="text-align: center; "><font color="#0000ff">Minimum Payment= 0.2$</font></div>
+    </div>
+</div>
+
+<script>
+    function calculate() {
+        const amountInput = document.getElementById('amount');
+        const currencyType = document.getElementById('currencyType').value;
+        const resultAmountInput = document.getElementById('resultAmount');
+        const resultContainer = document.getElementById('result');
+
+        const amount = parseFloat(amountInput.value);
+        const exchangeRate = 122;
+
+        if (isNaN(amount) || amount < 0.20) {
+            resultAmountInput.value = '';
+            resultContainer.innerHTML = 'Please enter a valid amount (minimum 0.20).';
+            return;
+        }
+
+        if (currencyType === 'usd') {
+            const result = (amount * exchangeRate).toFixed(2);
+            resultAmountInput.value = result;
+            resultContainer.innerHTML = `${amount} USD is equal to ${result} BDT`;
+        } else {
+            const result = (amount / exchangeRate).toFixed(2);
+            resultAmountInput.value = result;
+            resultContainer.innerHTML = `${amount} BDT is equal to ${result} USD`;
+        }
+    }
+</script>
